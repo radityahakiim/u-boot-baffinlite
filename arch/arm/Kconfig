@@ -695,6 +695,21 @@ config ARCH_BCM283X
 	imply FAT_WRITE
 	imply OF_HAS_PRIOR_STAGE
 
+config TARGET_BAFFINLITE
+	bool "Support Samsung baffinlite (GT-I9060, BCM23550)"
+	select CPU_V7A
+	select KONA
+	select KONA_GPIO
+	select KONA_RESET_S
+	imply CRC32_VERIFY
+	imply FAT_WRITE
+
+config TARGET_BCM23550_W1D
+	bool "Support bcm23550_w1d"
+	select CPU_V7A
+	imply CRC32_VERIFY
+	imply FAT_WRITE
+
 config ARCH_BCMSTB
 	bool "Broadcom BCM7XXX family"
 	select CPU_V7A
@@ -2432,6 +2447,33 @@ source "board/Marvell/octeontx2/Kconfig"
 source "board/armltd/vexpress/Kconfig"
 source "board/armltd/vexpress64/Kconfig"
 source "board/cortina/presidio-asic/Kconfig"
+config KONA
+	bool
+	help
+	  Broadcom Kona mobile SoC family (BCM281xx, BCM21664, BCM23550).
+	  
+	  These were previously defined as `#define` macros in the board 
+	  configuration header before the driver model was introduced. 
+	  This approach still works to some extent because U-Boot 
+	  preprocesses the header into `include/autoconf.mk` and exposes 
+	  the definitions to the Makefile namespace. This is why 
+	  `CONFIG_SYS_I2C_KONA` can still affect `obj-$(...)` in 
+	  `include/configs/baffinlite.h`. However, definitions in headers 
+	  are not visible to Kconfig, so they cannot be used as dependencies, 
+	  selected by other symbols, or shown in `.config`. Configuration 
+	  symbols that control entire directories should therefore be defined here 
+	  instead.
+
+config KONA_GPIO
+	bool
+	depends on KONA
+
+config KONA_RESET_S
+	bool
+	depends on KONA
+
+source "board/samsung/baffinlite/Kconfig"
+source "board/broadcom/bcm23550_w1d/Kconfig"
 source "board/broadcom/bcmns/Kconfig"
 source "board/broadcom/bcmns3/Kconfig"
 source "board/cavium/thunderx/Kconfig"

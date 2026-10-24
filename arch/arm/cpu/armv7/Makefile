@@ -32,6 +32,8 @@ ifneq (,$(filter s5pc1xx exynos,$(SOC)))
 obj-y += s5p-common/
 endif
 
+obj-$(CONFIG_KONA) += kona-common/
+obj-$(if $(filter bcm235xx,$(SOC)),y) += bcm235xx/
 obj-$(if $(filter bcm281xx,$(SOC)),y) += bcm281xx/
 obj-$(if $(filter bcmcygnus,$(SOC)),y) += bcmcygnus/
 obj-$(if $(filter bcmnsp,$(SOC)),y) += bcmnsp/
