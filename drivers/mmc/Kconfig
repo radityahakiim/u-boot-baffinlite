@@ -964,3 +964,12 @@ config SYS_FSL_ERRATUM_A011334
 
 config SYS_FSL_ESDHC_UNRELIABLE_PULSE_DETECTION_WORKAROUND
 	bool
+
+config MMC_SDHCI_KONA
+	bool "SDHCI support on Broadcom KONA platform"
+	depends on DM_MMC && MMC_SDHCI
+	help
+	  This selects the Broadcom Kona Secure Digital Host Controller
+	  Interface(SDHCI) support.
+	  This is used in Broadcom mobile SoCs.
+	  If you have a controller with this interface, say Y here.
